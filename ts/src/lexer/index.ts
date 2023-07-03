@@ -12,7 +12,7 @@ export default class Lexer {
 	private ch: string;
 
 	constructor(private input: string) {
-			this.readCharacter();
+		this.readCharacter();
 	}
 
 	private readCharacter(): void {
@@ -25,53 +25,52 @@ export default class Lexer {
 	}
 
 	nextToken(): Token {
-		const token = this.getNextToken();
-		this.readCharacter();
-
+		const { token, readNext } = this.getNextToken();
+		if (readNext) this.readCharacter();
 		return token;
 	}
 
-	private getNextToken(): Token {
+	private getNextToken(): {token: Token, readNext: boolean} {
 		this.skipWhitespace();
 
-		if (this.ch === '{') return createToken(TokenType.LBrace, this.ch);
-		if (this.ch === '}') return createToken(TokenType.RBrace, this.ch);
-		if (this.ch === '(') return createToken(TokenType.LParen, this.ch);
-		if (this.ch === ')') return createToken(TokenType.RParen, this.ch);
-		if (this.ch === ',') return createToken(TokenType.Comma, this.ch);
-		if (this.ch === ';') return createToken(TokenType.Semicolon, this.ch);
-		if (this.ch === '+') return createToken(TokenType.Plus, this.ch);
-		if (this.ch === '-') return createToken(TokenType.Minus, this.ch);
-		if (this.ch === '*') return createToken(TokenType.Asterisk, this.ch);
-		if (this.ch === '/') return createToken(TokenType.ForwardSlash, this.ch);
-		if (this.ch === '<') return createToken(TokenType.LessThan, this.ch);
-		if (this.ch === '>') return createToken(TokenType.GreaterThan, this.ch);
-		if (this.ch === '\0') return createToken(TokenType.Eof, 'eof')
+		if (this.ch === '{') return { token: createToken(TokenType.LBrace, this.ch), readNext: true };
+		if (this.ch === '}') return { token: createToken(TokenType.RBrace, this.ch), readNext: true };
+		if (this.ch === '(') return { token: createToken(TokenType.LParen, this.ch), readNext: true };
+		if (this.ch === ')') return { token: createToken(TokenType.RParen, this.ch), readNext: true };
+		if (this.ch === ',') return { token: createToken(TokenType.Comma, this.ch), readNext: true };
+		if (this.ch === ';') return { token: createToken(TokenType.Semicolon, this.ch), readNext: true };
+		if (this.ch === '+') return { token: createToken(TokenType.Plus, this.ch), readNext: true };
+		if (this.ch === '-') return { token: createToken(TokenType.Minus, this.ch), readNext: true };
+		if (this.ch === '*') return { token: createToken(TokenType.Asterisk, this.ch), readNext: true };
+		if (this.ch === '/') return { token: createToken(TokenType.ForwardSlash, this.ch), readNext: true };
+		if (this.ch === '<') return { token: createToken(TokenType.LessThan, this.ch), readNext: true };
+		if (this.ch === '>') return { token: createToken(TokenType.GreaterThan, this.ch), readNext: true };
+		if (this.ch === '\0') return { token: createToken(TokenType.Eof, 'eof'), readNext: false };
 		
 		if (this.ch === '=') {
-			if (this.peekCharacter() === '=') { this.readCharacter(); return createToken(TokenType.Equal, '=='); }
-			else return createToken(TokenType.Assign, this.ch);
+			if (this.peekCharacter() === '=') { this.readCharacter(); return { token:  createToken(TokenType.Equal, '=='), readNext: true }; } 
+			else return { token:  createToken(TokenType.Assign, this.ch), readNext: true} ;
 		}
 		
 		if (this.ch === '!') {
-			if (this.peekCharacter() === '=') { this.readCharacter(); return createToken(TokenType.NotEqual, '!='); }
-			else return createToken(TokenType.Bang, this.ch);
+			if (this.peekCharacter() === '=') { this.readCharacter(); return { token: createToken(TokenType.NotEqual, '!='), readNext: true }; }
+			else return { token: createToken(TokenType.Bang, this.ch), readNext: true };
 		}
 
 		if (isLetter(this.ch)) {
 			const identifier = this.readIdentifier();
 			const keyword = KEYWORDS[identifier as keyof typeof KEYWORDS];
-			if (keyword) return keyword;
+			if (keyword) return { token: keyword, readNext: false };
 
-			return createToken(TokenType.Ident, identifier);
+			return { token: createToken(TokenType.Ident, identifier), readNext: false };
 		}
 
 		if (isNumber(this.ch)) {
 			const number = this.readNumber();
-			return createToken(TokenType.Int, number);
+			return { token: createToken(TokenType.Int, number), readNext: false };
 		}
 
-		return createToken(TokenType.Illegal, this.ch);
+		return { token: createToken(TokenType.Illegal, this.ch), readNext: false };
 	}
 
 	private peekCharacter(): string {

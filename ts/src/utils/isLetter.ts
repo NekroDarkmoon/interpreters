@@ -8,7 +8,7 @@ const _ = '_'.charCodeAt(0);
 
 export default function isLetter(char: string): boolean {
 	const charCode = char.charCodeAt(0);
-	return (a <= charCode && z >= charCode)
+	return  (a <= charCode && z >= charCode)
 		|| (A <= charCode && Z >= charCode)
 		|| charCode === _;
 }
