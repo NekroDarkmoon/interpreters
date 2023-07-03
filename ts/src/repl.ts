@@ -1,4 +1,3 @@
-import { Token } from "./lexer/lexerTypes";
 import Lexer from "./lexer";
 
 import readline from "readline";

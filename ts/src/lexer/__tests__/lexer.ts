@@ -3,31 +3,31 @@ import Lexer from "../index"
 import { TokenType } from "../lexerTypes";
 import createToken from "../../utils/createToken";
 
-// test('test nextToken()', function() {
-// 	const input = `+-*=(){},;`
+test('test nextToken()', function () {
+	const input = `+-*=(){},;`
 
-// 	const testTokens = [
-// 		TokenType.Plus,
-// 		TokenType.Minus,
-// 		TokenType.Asterisk,
-// 		TokenType.Assign,
-// 		TokenType.LParen,
-// 		TokenType.RParen,
-// 		TokenType.LBrace,
-// 		TokenType.RBrace,
-// 		TokenType.Comma,
-// 		TokenType.Semicolon,
-// 	]
+	const testTokens = [
+		TokenType.Plus,
+		TokenType.Minus,
+		TokenType.Asterisk,
+		TokenType.Assign,
+		TokenType.LParen,
+		TokenType.RParen,
+		TokenType.LBrace,
+		TokenType.RBrace,
+		TokenType.Comma,
+		TokenType.Semicolon,
+	]
 
-// 	const lexer = new Lexer(input);
-// 	for (const tok of testTokens) {
-// 		const token = lexer.nextToken();
-// 		expect(token.type).toBe(tok);
-// 	}
-// }); 
+	const lexer = new Lexer(input);
+	for (const tok of testTokens) {
+		const token = lexer.nextToken();
+		expect(token.type).toBe(tok);
+	}
+});
 
 
-test('test nextToken() full test', function() {
+test('test nextToken() full test', function () {
 	const input = `let add = fn(x, y) { x + y; }
 		let valueA = 10;
 		let valueB = 20;
@@ -64,19 +64,19 @@ test('test nextToken() full test', function() {
 		createToken(TokenType.Assign, '='),
 		createToken(TokenType.Int, '10'),
 		createToken(TokenType.Semicolon, ';'),
-		
+
 		createToken(TokenType.Let, 'let'),
 		createToken(TokenType.Ident, 'valueB'),
 		createToken(TokenType.Assign, '='),
 		createToken(TokenType.Int, '20'),
 		createToken(TokenType.Semicolon, ';'),
-		
+
 		createToken(TokenType.Let, 'let'),
 		createToken(TokenType.Ident, 'valueC'),
 		createToken(TokenType.Assign, '='),
 		createToken(TokenType.Int, '10'),
 		createToken(TokenType.Semicolon, ';'),
-		
+
 		createToken(TokenType.Let, 'let'),
 		createToken(TokenType.Ident, 'result'),
 		createToken(TokenType.Assign, '='),
@@ -87,7 +87,7 @@ test('test nextToken() full test', function() {
 		createToken(TokenType.Ident, 'valueB'),
 		createToken(TokenType.RParen, ')'),
 		createToken(TokenType.Semicolon, ';'),
-		
+
 		createToken(TokenType.If, 'if'),
 		createToken(TokenType.LParen, '('),
 		createToken(TokenType.Ident, 'valueA'),
@@ -99,7 +99,7 @@ test('test nextToken() full test', function() {
 		createToken(TokenType.True, 'true'),
 		createToken(TokenType.Semicolon, ';'),
 		createToken(TokenType.RBrace, '}'),
-		
+
 		createToken(TokenType.Else, 'else'),
 		createToken(TokenType.If, 'if'),
 		createToken(TokenType.LParen, '('),
@@ -112,7 +112,7 @@ test('test nextToken() full test', function() {
 		createToken(TokenType.False, 'false'),
 		createToken(TokenType.Semicolon, ';'),
 		createToken(TokenType.RBrace, '}'),
-		
+
 		createToken(TokenType.Else, 'else'),
 		createToken(TokenType.If, 'if'),
 		createToken(TokenType.LParen, '('),
@@ -125,7 +125,7 @@ test('test nextToken() full test', function() {
 		createToken(TokenType.True, 'true'),
 		createToken(TokenType.Semicolon, ';'),
 		createToken(TokenType.RBrace, '}'),
-		
+
 		createToken(TokenType.Else, 'else'),
 		createToken(TokenType.If, 'if'),
 		createToken(TokenType.LParen, '('),
@@ -138,19 +138,19 @@ test('test nextToken() full test', function() {
 		createToken(TokenType.False, 'false'),
 		createToken(TokenType.Semicolon, ';'),
 		createToken(TokenType.RBrace, '}'),
-		
+
 		createToken(TokenType.Else, 'else'),
 		createToken(TokenType.LBrace, '{'),
 		createToken(TokenType.Return, 'return'),
 		createToken(TokenType.False, 'false'),
 		createToken(TokenType.Semicolon, ';'),
 		createToken(TokenType.RBrace, '}'),
-		
+
 		createToken(TokenType.Eof, 'eof'),
 	];
 
 	console.log('----------------------------------');
-	
+
 	const lexer = new Lexer(input);
 	for (const tok of testTokens) {
 		expect(lexer.nextToken()).toEqual(tok);
